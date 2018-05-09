@@ -9,6 +9,7 @@ $( document ).ready(function() {
         "pageLength": 30
     });
     $('#year').change(function(event) {
+        $('#loader-table').show();
         var year = $('#year').val();
         $.get('/get-stats/'+year, function(json) {
             var tableData = new Array();
@@ -24,7 +25,12 @@ $( document ).ready(function() {
                 //tempData['id'] = i;
                 for (j=0; j<stats.length; j++) {
                     var stat = stats[j]
-                    tempData.push(data[stat][team].toFixed(2));
+                    if (stat == 'TOTAL_WINS') {
+                        tempData.push(data[stat][team].toFixed(0));
+                    }
+                    else {
+                        tempData.push(data[stat][team].toFixed(2));
+                    }
                 }
                 tableData.push(tempData);
             }
@@ -34,6 +40,9 @@ $( document ).ready(function() {
             table.data().clear()
             table.rows.add(tableData);
             table.draw();
+        }).always(function() {
+            console.log('done')
+            $('#loader-table').hide();
         });
         $('#year').blur()
     });

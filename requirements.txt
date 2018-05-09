@@ -1,3 +1,4 @@
+bokeh==0.12.15
 click==6.7
 Flask==1.0.2
 gunicorn==19.8.1
@@ -5,8 +6,12 @@ itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
 numpy==1.14.3
+packaging==17.1
 pandas==0.22.0
+pyparsing==2.2.0
 python-dateutil==2.7.2
 pytz==2018.4
+PyYAML==3.12
 six==1.11.0
+tornado==5.0.2
 Werkzeug==0.14.1
