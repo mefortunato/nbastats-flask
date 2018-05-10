@@ -14,11 +14,13 @@ $( document ).ready(function() {
               visible: true
             }
         });
-        console.log(data)
         var layout = {
             width: $('#char-div-1').width(),
             height: 600,
             title: 'Figure 1. Absolute Average PYE Error',
+            font: {
+                family: 'Droid Serif'
+            },
             xaxis: {
                 title: 'Games Played',
                 linecolor: 'black',
@@ -53,11 +55,13 @@ $( document ).ready(function() {
               visible: true
             }
         });
-        console.log(data)
         var layout = {
             width: $('#char-div-2').width(),
             height: 600,
             title: 'Figure 2. Absolute Projected Average PYE Error',
+            font: {
+                family: 'Droid Serif'
+            },
             xaxis: {
                 title: 'Games Played',
                 linecolor: 'black',

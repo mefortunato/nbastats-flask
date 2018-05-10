@@ -8,9 +8,12 @@
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
         
         <link rel="stylesheet" href="{{url_for('static', filename='css/loader.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" type="text/css">
         
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" type="text/css">
         <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        
+        <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -30,37 +33,59 @@
                     </ul>
                 </div>
             </nav>
-            <form id="change-year" class="row align-items-center">
-                <div class="form-group col-sm-4 offset-sm-4 align-self-center text-center">
-                    Select year:
-                    <select id="year" class="form-control">
+            <form id="change-year" class="row justify-content-md-center" style="margin-top: 10px">
+                <div class="form-group col-sm-4 align-self-center text-center">
+                    <a class="btn btn-light" id="prev-year">&lt;</a> Select year: <a class="btn btn-light" id="next-year">&gt;</a>
+                    <select id="year" class="form-control" style="margin: 10px">
+                    </select>
+                </div>
+                    
+                <div id="statistic-div" class="form-group col-sm-4 align-self-center text-center" style="display: none">
+                    <a class="btn btn-light" id="prev-stat">&lt;</a> Select statistic: <a class="btn btn-light" id="next-stat">&gt;</a>
+                    <select id="statistic" class="form-control" style="margin: 10px">
                     </select>
                 </div>
             </form>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a id="table-tab" data-toggle="tab" class="nav-link active" href="#table" role="tab" aria-controls="table" aria-selected="true">Table</a>
+                </li>
+                <li class="nav-item">
+                    <a id="graph-tab" data-toggle="tab" class="nav-link" href="#graph" role="tab" aria-controls="graph" aria-selected="false">Graph</a>
+                </li>
+            </ul>
             <div class="row align-items-center">
                 <div class="col-sm align-self-center text-center">
                     <div id="loader-table" class="loader"></div>
-                    <table id="stats" class="display">
-                        <thead>
-                            <th>Team</th>
-                            <th>Wins</th>
-                            <th>PYE</th>
-                            <th>PTS</th>
-                            <th>PTS_A</th>
-                            <th>FGM</th>
-                            <th>FGA</th>
-                            <th>FG_PCT</th>
-                            <th>FG2M</th>
-                            <th>FG2A</th>
-                            <th>FG2_PCT</th>
-                            <th>FG3M</th>
-                            <th>FG3A</th>
-                            <th>FG3_PCT</th>
-                            <th>FTM</th>
-                            <th>FTA</th>
-                            <th>FT_PCT</th>
-                        </thead>
-                    </table>
+                    <div class="tab-content" style="margin: 15px">
+                        <div id="table" class="tab-pane show active">
+                            <table id="stats" class="display">
+                                <thead>
+                                    <th>Team</th>
+                                    <th>Wins</th>
+                                    <th>PYE</th>
+                                    <th>PYE Error</th>
+                                    <th>PTS</th>
+                                    <th>PTS_A</th>
+                                    <th>FGM</th>
+                                    <th>FGA</th>
+                                    <th>FG_PCT</th>
+                                    <th>FG2M</th>
+                                    <th>FG2A</th>
+                                    <th>FG2_PCT</th>
+                                    <th>FG3M</th>
+                                    <th>FG3A</th>
+                                    <th>FG3_PCT</th>
+                                    <th>FTM</th>
+                                    <th>FTA</th>
+                                    <th>FT_PCT</th>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="graph" class="tab-pane">
+                            <div id="chart-div"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
