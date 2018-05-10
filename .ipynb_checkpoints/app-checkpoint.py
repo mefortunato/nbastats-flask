@@ -18,7 +18,7 @@ def team_stats():
 def get_stats(year=2017):
     df = pd.read_csv('static/dat/1983-2017.csv')
     season_id = float('2'+str(year))
-    STATS = ['TOTAL_WINS', 'PTS', 'PTS_A', 'FGM', 'FGA', 'FG_PCT', 'FG2M', 'FG2A', 'FG2_PCT', 'FG3M', 'FG3A', 'FG3_PCT', 'FTM', 'FTA', 'FT_PCT']
+    STATS = ['TOTAL_WINS', 'PTS', 'PTS_A', 'FGM', 'FGA', 'FG_PCT', 'FG2M', 'FG2A', 'FG2_PCT', 'FG3M', 'FG3A', 'FG3_PCT', 'FTM', 'FTA', 'FT_PCT', 'OREB', 'DREB', 'REB', 'AST', 'STL', 'BLK', 'TOV', 'PF', 'PLUS_MINUS']
     teams = df.loc[df['SEASON_ID']==season_id].groupby('TEAM_ABBREVIATION').mean()
     return(jsonify(year=year, stats=teams[STATS].to_json()))
 
