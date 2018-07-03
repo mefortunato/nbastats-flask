@@ -1,0 +1,64 @@
+<style>
+    .green { background: rgba(0, 155, 0, 0.5) }
+    .red { background: rgba(155, 0, 0, 0.5) }
+</style>
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
+
+<form autocomplete="off">
+    Date: <input id="date" type="text" value={{ date }}>
+    <input id="submit" type="submit" value="Go">
+</form>
+
+<script>
+    $("form").submit(function(e) {
+        e.preventDefault();
+        var date = $("#date").val();
+        window.location = 'http://'+window.location.host+'/games/'+date;
+    })
+</script>
+
+<br>
+
+{% if not games %}
+No games on {{date}}
+{% endif %}
+
+{% for game in games.values() %}
+    <table border="1" cellpadding="2" style="text-align: center; margin: 10px">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Points</th>
+                <th>Win Prob</th>
+                <th>Spread</th>
+                <th>Cover Spread Prob</th>
+                <th>Over/Under</th>
+                <th>Cover Over/Under Prob</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{game['visitor_abrv']}}</td>
+                <td>{{game['pts_a']}}</td>
+                <td>{{'{:.2f}'.format(1-game['win_pred_proba'])}}</td>
+                <td>{{0-game['spread']}}</td>
+                <td>{{'{:.2f}'.format(1-game['spread_pred_proba'])}}</td>
+                <td>{{game['total']}}</td>
+                <td>{{'{:.2f}'.format(1-game['total_pred_proba'])}}</td>
+            </tr>
+            <tr>
+                <td>{{game['home_abrv']}}</td>
+                <td>{{game['pts']}}</td>
+                <td class="{{'green' if game['win']==game['win_pred'] else 'red'}}">{{game['win_pred_proba']}}</td>
+                <td>{{game['spread']}}</td>
+                <td class="{{'green' if game['spread_cover']==game['spread_pred'] else 'red'}}">{{game['spread_pred_proba']}}</td>
+                <td>{{game['total']}}</td>
+                <td class="{{'green' if game['total_cover']==game['total_pred'] else 'red'}}">{{game['total_pred_proba']}} </td>
+            </tr>
+        </tbody>
+    </table>
+{% endfor %}
