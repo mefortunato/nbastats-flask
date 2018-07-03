@@ -45,7 +45,6 @@ pyproj==1.9.5.1
 pyshp==1.2.12
 python-dateutil==2.7.3
 pytz==2018.4
-PyYAML==4.1
 pyzmq==17.0.0
 regex==2017.4.5
 requests==2.19.1
