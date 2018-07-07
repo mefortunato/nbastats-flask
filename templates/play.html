@@ -12,8 +12,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col text-center">
-            <h1 style="padding-top: 50px">Think you can beat our model?</h1>
-            <p class="lead">Pick who you think will win, cover the spread, and if the teams will hit the over.</p>
+            <h1 style="padding-top: 50px">Think you can beat the model?</h1>
+            <p class="lead">Pick if the home team will win, if the home team will cover the spread, and if the teams will hit the over. Then see what the model predicted.</p>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -26,14 +26,14 @@
                     <tr>
                         <th>Win</th>
                         <th>Spread</th>
-                        <th>Total</th>
+                        <th>O/U</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span id="user-win-correct">0</span>/<span id="user-win-total">0</span></td>
-                        <td><span id="user-spread-correct">0</span>/<span id="user-spread-total">0</span></td>
-                        <td><span id="user-total-correct">0</span>/<span id="user-total-total">0</span></td>
+                        <td><span id="user-win-correct">0.00 %</span></td>
+                        <td><span id="user-spread-correct">0.00 %</span></td>
+                        <td><span id="user-total-correct">0.00 %</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -47,14 +47,14 @@
                     <tr>
                         <th>Win</th>
                         <th>Spread</th>
-                        <th>Total</th>
+                        <th>O/U</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span id="bs-win-correct">0</span>/<span id="bs-win-total">0</span></td>
-                        <td><span id="bs-spread-correct">0</span>/<span id="bs-spread-total">0</span></td>
-                        <td><span id="bs-total-correct">0</span>/<span id="bs-total-total">0</span></td>
+                        <td><span id="bs-win-correct">0.00 %</span></td>
+                        <td><span id="bs-spread-correct">0.00 %</span></td>
+                        <td><span id="bs-total-correct">0.00 %</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -88,6 +88,7 @@
                             <input type="checkbox" id="user-pick-win">
                             <span id="slider-win" class="slider round"></span>
                         </label>
+                        <div><span id="bs-pred-win"></span></div>
                     </div>
                     <div class="col-md-3 col-xs-12" style="border-radius: 25px;">
                         <div>
@@ -97,6 +98,7 @@
                             <input type="checkbox" id="user-pick-spread">
                             <span id="slider-spread" class="slider round"></span>
                         </label>
+                        <div><span id="bs-pred-spread"></span></div>
                     </div>
                     <div class="col-md-3 col-xs-12" style="border-radius: 25px;">
                         <div>
@@ -106,6 +108,7 @@
                             <input type="checkbox" id="user-pick-total">
                             <span id="slider-total" class="slider round"></span>
                         </label>
+                        <div><span id="bs-pred-total"></span></div>
                     </div>
                 </div>
                 <button id="submit" class="btn btn-info" type="submit">Submit</button>

@@ -2,7 +2,13 @@
 
 {% block main %}
     <div class="container">
-        <form autocomplete="off" style="margin-top: 10px">
+        <div class="row">
+            <div class="col text-center" style="margin-top: 50px">
+                <p class="lead">Explore historical games and see what <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b> would have predicted.</p>
+            </div>
+        </div>
+        
+        <form autocomplete="off">
             <div class="form-group row justify-content-center">
                 <div class="col-xs-2">
                     <input id="date" class="form-control text-center" type="date" value={{ date }} />

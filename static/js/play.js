@@ -1,47 +1,49 @@
-var home_win = null;
-var home_spread = null;
-var home_total = null;
+var homeWin = null;
+var homeSpread = null;
+var homeTotal = null;
 
-var total_games = 0;
+var totalGames = 0;
 
 var user = {win:0, spread:0, total:0};
 var bs = {win:0, spread:0, total:0};
 
-var game_info = null
+var gameInfo = null
 
-function render_info(json) {
+var bsPredText = '<b><span style="color:#38a553">B</span><span style="color:#3a64a8">S</span></b> pred: ';
+
+function renderInfo(json) {
     console.log(json)
     $('#date').text(json['date'])
     $('#home-logo').attr("src", json['logos'][0]);
     $('#away-logo').attr("src", json['logos'][1]);
     var info = Object.values(json['info'])[0];
-    game_info = info;
+    gameInfo = info;
     $('#spread').text(info['home_abrv'] + ' ' + info['spread']);
     $('#o-u').text(info['total']);
     $('#home-abrv-win').text(info['home_abrv']);
     $('#home-abrv-spread').text(info['home_abrv']);
-    home_win = info['win'];
-    home_spread = info['spread_cover'];
-    home_total = info['total_cover'];
+    homeWin = info['win'];
+    homeSpread = info['spread_cover'];
+    homeTotal = info['total_cover'];
 }
 
-function update_scores(user_win, user_spread, user_total) {
-    total_games += 1;
-    if (user_win == game_info['win']) {
+function updateScores(userWin, userSpread, userTotal) {
+    totalGames += 1;
+    if (userWin == gameInfo['win']) {
         user['win'] += 1;
         $('#slider-win').css('background-color', 'rgba(0, 155, 0, 0.5)');
     }
     else {
         $('#slider-win').css('background-color', 'rgba(155, 0, 0, 0.5)');
     }
-    if (user_spread == game_info['spread_cover']) {
+    if (userSpread == gameInfo['spread_cover']) {
         user['spread'] += 1;
         $('#slider-spread').css('background-color', 'rgba(0, 155, 0, 0.5)');
     }
     else {
         $('#slider-spread').css('background-color', 'rgba(155, 0, 0, 0.5)');
     }
-    if (user_total == game_info['total_cover']) {
+    if (userTotal == gameInfo['total_cover']) {
         user['total'] += 1;
         $('#slider-total').css('background-color', 'rgba(0, 155, 0, 0.5)');
     }
@@ -49,34 +51,50 @@ function update_scores(user_win, user_spread, user_total) {
         $('#slider-total').css('background-color', 'rgba(155, 0, 0, 0.5)');
     }
     
-    if (game_info['win_pred'] == game_info['win']) {
+    if (gameInfo['win_pred'] == gameInfo['win']) {
         bs['win'] += 1;
+        $('#bs-pred-win').append(
+            bsPredText+(100*gameInfo['win_pred_proba']).toFixed(2)+'% &#10004;'
+        );
     }
-    if (game_info['spread_pred'] == game_info['spread_cover']) {
+    else {
+        $('#bs-pred-win').append(
+            bsPredText+(100*gameInfo['win_pred_proba']).toFixed(2)+'% &#10006;'
+        );
+    }
+    if (gameInfo['spread_pred'] == gameInfo['spread_cover']) {
         bs['spread'] += 1;
+        $('#bs-pred-spread').append(
+            bsPredText+(100*gameInfo['spread_pred_proba']).toFixed(2)+'% &#10004;'
+        );
     }
-    if (game_info['total_pred'] == game_info['total_cover']) {
+    else {
+        $('#bs-pred-spread').append(
+            bsPredText+(100*gameInfo['spread_pred_proba']).toFixed(2)+'% &#10006;'
+        );
+    }
+    if (gameInfo['total_pred'] == gameInfo['total_cover']) {
         bs['total'] += 1;
+        $('#bs-pred-total').append(
+            bsPredText+(100*gameInfo['total_pred_proba']).toFixed(2)+'% &#10004;'
+        );
     }
-    render_scores();
+    else {
+        $('#bs-pred-total').append(
+            bsPredText+(100*gameInfo['total_pred_proba']).toFixed(2)+'% &#10006;'
+        );
+    }
+    renderScores();
 }
 
-function render_scores() {
-    $('#user-win-correct').text(user['win'])
-    $('#user-spread-correct').text(user['spread'])
-    $('#user-total-correct').text(user['total'])
+function renderScores() {
+    $('#user-win-correct').text((100*user['win']/totalGames).toFixed(2)+'%');
+    $('#user-spread-correct').text((100*user['spread']/totalGames).toFixed(2)+'%');
+    $('#user-total-correct').text((100*user['total']/totalGames).toFixed(2)+'%');
     
-    $('#user-win-total').text(total_games)
-    $('#user-spread-total').text(total_games)
-    $('#user-total-total').text(total_games)
-    
-    $('#bs-win-correct').text(bs['win'])
-    $('#bs-spread-correct').text(bs['spread'])
-    $('#bs-total-correct').text(bs['total'])
-    
-    $('#bs-win-total').text(total_games)
-    $('#bs-spread-total').text(total_games)
-    $('#bs-total-total').text(total_games)
+    $('#bs-win-correct').text((100*bs['win']/totalGames).toFixed(2)+'%');
+    $('#bs-spread-correct').text((100*bs['spread']/totalGames).toFixed(2)+'%');
+    $('#bs-total-correct').text((100*bs['total']/totalGames).toFixed(2)+'%');
 }
 
 $(document).ready(function() {
@@ -93,17 +111,17 @@ $(document).ready(function() {
     })
     
     fetch('/random-game/').then((resp) => resp.json()).then(json => {
-        render_info(json);
+        renderInfo(json);
     });
     
     $('#submit').click(function(e) {
         e.preventDefault();
-        var user_win = $('#user-pick-win')[0].checked;
-        var user_spread = $('#user-pick-spread')[0].checked;
-        var user_total = $('#user-pick-total')[0].checked;
-        update_scores(user_win, user_spread, user_total);
-        $('#home-pts').text(game_info['pts']);
-        $('#away-pts').text(game_info['pts_a']);
+        var userWin = $('#user-pick-win')[0].checked;
+        var userSpread = $('#user-pick-spread')[0].checked;
+        var userTotal = $('#user-pick-total')[0].checked;
+        updateScores(userWin, userSpread, userTotal);
+        $('#home-pts').text(gameInfo['pts']);
+        $('#away-pts').text(gameInfo['pts_a']);
         $('#submit').prop("disabled",true);
     })
     
@@ -114,11 +132,14 @@ $(document).ready(function() {
         $('#user-pick-total')[0].checked=false;
         $('#home-pts').text('');
         $('#away-pts').text('');
+        $('#bs-pred-win').text('');
+        $('#bs-pred-spread').text('');
+        $('#bs-pred-total').text('');
         $('#slider-win').css('background-color', '#ccc');
         $('#slider-spread').css('background-color', '#ccc');
         $('#slider-total').css('background-color', '#ccc');
         fetch('/random-game/').then((resp) => resp.json()).then(json => {
-            render_info(json);
+            renderInfo(json);
         });
         $('#submit').prop("disabled",false);
     })

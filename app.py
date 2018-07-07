@@ -64,7 +64,10 @@ def random_game():
     game['win_pred'] = list(win_est.predict(game))
     game['spread_pred'] = list(spread_est.predict(game))
     game['total_pred'] = list(total_est.predict(game))
-    game = game[['date', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred']]
+    game['win_pred_proba'] = list(win_est.predict_proba(game)[:, 1])
+    game['spread_pred_proba'] = list(spread_est.predict_proba(game)[:, 1])
+    game['total_pred_proba'] = list(total_est.predict_proba(game)[:, 1])
+    game = game[['date', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']]
     logos = [LOGOS.get(game.home_abrv.values[0]), LOGOS.get(game.visitor_abrv.values[0])]
     date = game['date'].astype(str).values[0]
     return jsonify(info=game.to_dict('index'), logos=logos, date=date)
