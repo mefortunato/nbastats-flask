@@ -12,6 +12,9 @@ from pipeline import read_data, TRAIN_STATS, process_pipeline, fit_pipeline
 
 app = Flask(__name__)
 
+with open('static/dat/logos.json') as f:
+    LOGOS = json.load(f)
+
 def prepare_data():
     data = read_data('static/dat/br-raw_2007-2018.csv')
     totals = read_data('static/dat/totals.csv')
@@ -38,17 +41,20 @@ with open('static/dat/total_model.pkl', 'rb') as f:
 def home():
     return render_template('home.html')
 
-@app.route('/test')
-def test():
-    df = DATA[DATA['date']=='2018-03-26']
-    return jsonify(df.sort_values('id')[['avg_pts', 'avg_pts_a', 'home_avg_pts', 'home_avg_pts_a', 'spread']].to_json())
+@app.route('/about/')
+def about():
+    return render_template('about.html')
 
-@app.route('/games/', defaults={'date': '2018-03-26'})
+@app.route('/performance/')
+def performance():
+    return render_template('performance.html')
+
+@app.route('/games/', defaults={'date': '2018-06-08'})
 @app.route('/games/<date>/')
-def predict(date='2018-03-26'):
+def games(date='2018-06-08'):
     df = DATA[(DATA['date']==date) & (DATA['home']==1)].copy()
     if len(df) == 0:
-        return render_template('date-view.html', games={}, date=date)
+        return render_template('games.html', games={}, date=date)
     df['win_pred_proba'] = list(win_est.predict_proba(df[TRAIN_STATS])[:, 1])
     df['spread_pred_proba'] = list(spread_est.predict_proba(df[TRAIN_STATS])[:, 1])
     df['total_pred_proba'] = list(total_est.predict_proba(df[TRAIN_STATS])[:, 1])
@@ -56,7 +62,7 @@ def predict(date='2018-03-26'):
     df['spread_pred'] = list(spread_est.predict(df[TRAIN_STATS]))
     df['total_pred'] = list(total_est.predict(df[TRAIN_STATS]))
     games = df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'home_avg_pts', 'home_avg_pts_a', 'away_avg_pts_opp', 'away_avg_pts_a_opp', 'win', 'moneylines_home', 'moneylines_away', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2).to_dict('index')
-    return render_template('date-view.html', games=games, date=date)
+    return render_template('games.html', games=games, date=date, logos=LOGOS)
 
 @app.route('/team-stats/')
 def team_stats():

@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="container">
+        <form autocomplete="off" style="margin-top: 10px">
+            <div class="form-group row justify-content-center">
+                <div class="col-xs-2">
+                    <input id="date" class="form-control text-center" type="date" value={{ date }} />
+                </div>
+            </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-xs-1">
+                    <input id="submit" type="submit" value="Submit" class="d-none btn btn-light" />
+                </div>
+            </div>
+        </form>
+        
+        
+        {% if not games %}
+        <h3>No games on {{date}}</h3>
+        {% endif %}
+        
+        {% for game in games.values() %}
+        <hr>
+        <div class="row">
+            <div class="col-md-4 col-xs-12 text-center">
+                <div><img src="{{logos[game['visitor_abrv']]}}" height="100px"/></div>
+                <h1>{{game['pts_a']|int}}</h1>
+                <table class="table table-bordered" style="margin: 0 auto">
+                    <thead>
+                        <tr>
+                            <th colspan=3>
+                                <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b>
+                                Predicted Probabilities</th>
+                        <tr>
+                            <th scope="col">Win</th>
+                            <th scope="col">Spread</th>
+                            <th scope="col">O/U</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{'{:.1f}%'.format(100*(1-game['win_pred_proba']))}}</td>
+                            <td>{{'{:.1f}%'.format(100*(1-game['spread_pred_proba']))}}</td>
+                            <td>{{'{:.1f}%'.format(100*(1-game['total_pred_proba']))}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4 col-xs-12 text-center" style="margin: auto auto">
+                <h1>VS</h1>
+                <div class="lead"><b>Spread</b>: {{game['home_abrv']}} {{game['spread']}}</div>
+                <div class="lead"><b>O/U</b>: {{game['total']}}</div>
+            </div>
+            <div class="col-md-4 col-xs-12 text-center">
+                <div><img src="{{logos[game['home_abrv']]}}" height="100px"/></div>
+                <h1>{{game['pts']|int}}</h1>
+                <table class="table table-bordered" style="margin: 0 auto">
+                    <thead>
+                        <tr>
+                            <th colspan=3>
+                                <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b>
+                                Predicted Probabilities</th>
+                        <tr>
+                            <th scope="col">Win</th>
+                            <th scope="col">Spread</th>
+                            <th scope="col">O/U</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="{{'green' if game['win']==game['win_pred'] else 'red'}}">
+                                {{'{:.1f}%'.format(100*game['win_pred_proba'])}}
+                            </td>
+                            <td class="{{'green' if game['spread_cover']==game['spread_pred'] else 'red'}}">
+                                {{'{:.1f}%'.format(100*game['spread_pred_proba'])}}
+                            </td>
+                            <td class="{{'green' if game['total_cover']==game['total_pred'] else 'red'}}">
+                                {{'{:.1f}%'.format(100*game['total_pred_proba'])}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdn.jsdelivr.net/npm/mobile-detect@1.4.2/mobile-detect.min.js"></script>
+<script src="{{url_for('static', filename='js/games.js')}}"></script>
+{% endblock %}
