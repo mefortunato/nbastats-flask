@@ -54,6 +54,21 @@ def games(date='2018-06-08'):
     games = df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'moneyline', 'moneyline_a', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2).to_dict('index')
     return render_template('games.html', games=games, date=date, logos=LOGOS)
 
+@app.route('/play/')
+def play():
+    return render_template('play.html')
+
+@app.route('/random-game/')
+def random_game():
+    game = DATA[(DATA['season']==2018) & (DATA['home']==1)].sample()
+    game['win_pred'] = list(win_est.predict(game))
+    game['spread_pred'] = list(spread_est.predict(game))
+    game['total_pred'] = list(total_est.predict(game))
+    game = game[['date', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred']]
+    logos = [LOGOS.get(game.home_abrv.values[0]), LOGOS.get(game.visitor_abrv.values[0])]
+    date = game['date'].astype(str).values[0]
+    return jsonify(info=game.to_dict('index'), logos=logos, date=date)
+
 @app.route('/team-stats/')
 def team_stats():
     return render_template('team-stats.html')

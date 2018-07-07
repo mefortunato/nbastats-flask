@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link href="{{url_for('static', filename='css/toggle.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script src="{{url_for('static', filename='js/play.js')}}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <h1 style="padding-top: 50px">Think you can beat our model?</h1>
+            <p class="lead">Pick who you think will win, cover the spread, and if the teams will hit the over.</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th colspan=3>You</th>
+                    </tr>
+                    <tr>
+                        <th>Win</th>
+                        <th>Spread</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span id="user-win-correct">0</span>/<span id="user-win-total">0</span></td>
+                        <td><span id="user-spread-correct">0</span>/<span id="user-spread-total">0</span></td>
+                        <td><span id="user-total-correct">0</span>/<span id="user-total-total">0</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3">
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th colspan=3><b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b></th>
+                    </tr>
+                    <tr>
+                        <th>Win</th>
+                        <th>Spread</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span id="bs-win-correct">0</span>/<span id="bs-win-total">0</span></td>
+                        <td><span id="bs-spread-correct">0</span>/<span id="bs-spread-total">0</span></td>
+                        <td><span id="bs-total-correct">0</span>/<span id="bs-total-total">0</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center text-center">
+        <div class="col">
+            <h4 style="padding-bottom: 25px">Date: <span id="date"></span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-12 text-center">
+            <div><img id="away-logo" src="" height="100px"/></div>
+            <div id="away-pts"></div>
+        </div>
+        <div class="col-md-4 col-xs-12 text-center" style="margin: auto auto">
+            <h1>VS</h1>
+            <div class="lead"><b>Spread</b>: <span id="spread"></span></div>
+            <div class="lead"><b>O/U</b>: <span id="o-u"></span></div>
+        </div>
+        <div class="col-md-4 col-xs-12 text-center">
+            <div><img id="home-logo" src="" height="100px"/></div>
+            <div id="home-pts"></div>
+        </div>
+    </div>
+    <div class="row justify-content-center text-center" style="padding-top:50px">
+        <div class="col">
+            <form>
+                <div class="form-group row justify-content-center">
+                    <div class="col-md-3 col-xs-12" style="border-radius: 25px;">
+                        <div>
+                            Will <span id="home-abrv-win"></span> win?
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="user-pick-win">
+                            <span id="slider-win" class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-3 col-xs-12" style="border-radius: 25px;">
+                        <div>
+                            Will <span id="home-abrv-spread"></span> cover the spread?
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="user-pick-spread">
+                            <span id="slider-spread" class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-3 col-xs-12" style="border-radius: 25px;">
+                        <div>
+                            Will they hit the over?
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="user-pick-total">
+                            <span id="slider-total" class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <button id="submit" class="btn btn-info" type="submit">Submit</button>
+                <span>&nbsp;</span>
+                <button id="next" class="btn btn-light" type="submit">Next</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
