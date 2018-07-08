@@ -31,10 +31,6 @@ with open('static/dat/total_model_v2.pkl', 'rb') as f:
 def home():
     return render_template('home.html')
 
-@app.route('/about/')
-def about():
-    return render_template('about.html')
-
 @app.route('/performance/')
 def performance():
     return render_template('performance.html')

@@ -1,1 +1,41 @@
 {% extends "layout.html" %}
+
+{% block main %}
+<div class="container">
+    <div style="margin-top: 50px" class="jumbotron">
+        <h1 class="display-4">Bet smarter, with <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b></h1>
+        <p class="lead">Get informed using data driven betting behavior and put more money in your pocket.</p>
+        <hr class="my-4">
+        <p>Will the Lakers cover the spread tonight? More importantly, should I bet on it? <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b>'s' machine learning algorithms will give you more insight into how to bet intelligently on NBA games.</p>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <p class="lead">Take a look at historical <a href="/games/">games</a> and see how the model would have performed in the past. Or see how the model would have done on whole seasons on the <a href="/performance/">performance</a> page. Think you know a lot about the NBA? <a href="/play/">Play</a> against the machine and see if you can beat the model.</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <h3>Technical Details</h3>
+            <hr>
+            <p>Raw game statistics are fed into the prediction pipeline and time averaged to create multiple feature sets. Each feature set is used to make an individual prediction and combined using a feature union to create a new set of predictors.Feature sets are categorized into different types of statistics, time-series windows, and meta-data about each game. These categories can be considered independent predictions that place varying importance on different game features.</p>
+            
+            <div class="text-center" style="margin-bottom: 50px">
+                <img src="{{url_for('static', filename='img/model-schematic.svg')}}" width="600px"/>
+            </div>
+            
+            <h3>Two Heads are Better than One</h3>
+            <hr>
+            <p>Imagine gathering together 10 of your friends, and asking each of them to make a prediction about their confidence in a given team winning. Some of your friends might believe in the three point shot and use these statistics to inform their prediction. Other friends might look at whether it's a home game, or the second night of a back to back. Ultimately, if you all know something about the NBA, you would expect your combined prediction to be more accurate on average than any individual prediction. This is the same strategy BetSmart uses; if two heads are better than one, why not replace those heads with machine learning algorithms and use as many as possible?!</p>
+            
+            <h3>Applying Predictions to Profit</h3>
+            <hr>
+            <b>The Moneyline</b>
+            <p>By the end of the prediction pipeline, the BetSmart model outputs a single number: the probability you should place a bet. But you need more information before you place a bet; you need to know the odds you're getting. Betting on the favorite is easy, so you'll profit less for doing so. How much you profit is given by the moneyline. Sometimes it doesn't make sense to bet on a heavy favorite because you'll be risking a lot to profit a little.</p>
+            <b>Spreads and Over/Unders</b>
+            <p>When betting on the spread or over/under, you'll get close to even money, meaning you'll <i>almost</i> profit the same amount you bet if you win. Usually, you'll lose 5-10% of what you bet. This means you can't just get 50.001% of your bets correct to profit. Betting on these lines is difficult; the line is set specifically so 50% of the money placed on the bet is on either side. In other words, it's close to a toss-up. However, having access to the <i>confidence</i> covering can inform <i>how much</i> to wager on each bet. The BetSmart model reliably performs better than 50% on the spread and over/under, even if just by a small margin. Intelligently weighting bets as a function of the predicted confidence can lead to consistent positive profit.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

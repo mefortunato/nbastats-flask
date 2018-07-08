@@ -1,5 +1,64 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col" style="margin-top: 50px">
+            <h1>Performance Metrics</h1>
+
+            <p>For the sake of measuring performance, we're going to simulate betting on NBA seasons dating back to 2007. For each season, the model was trained on all data except for the season in question. So for the 2018 season (2017-2018), that means all data prior to last year was included in the training, and then predictions were made for the 2018 season. That means that for the 2007 season, we're actually pretending it occurred next year. In other words the simulations do not consider the order of season to be important. This way each performance assesment uses roughly the same amount of training data.</p>
+
+            <p>Importantly, within a season, the data used for training and prediction do not know the future. Data points are generated <b>only</b> using data from earlier in that season. This is so the predictions, and our simulation here, accurately represent what would happen if you used this prediction model in practice.</p>
+
+            <h1>Win Prediction Performance</h1>
+
+            <p>First let's look at how well the model predicted the winner of NBA games. Each year, the model predicted correctly with just under 70% accuracy. Let's compare this to a naive predictor that predicts the winner to be the team with the higher average win percentage. The BetSmart model outperformed the naive predictor in every season by an average of 4.7%.</p>
+            
+            <!-- Win perf -->
+            <div 
+                 id="3cfdfd73-3fcc-4767-a501-b70a3d06688a" 
+                 style="height: 500px; width: 75%; margin: 0 auto" 
+                 class="plotly-graph-div"
+            ></div>
+
+            <h1>Spread Prediction Performance</h1>
+
+            <p>Predicting whether a team will cover the spread is significantly more difficult. This type of bet is designed to entice 50% of the action on either side of the bet. The BetSmart model outperformed a naive predictor in all but 3 years, on average by 1.5%.</p>
+
+            <div 
+                 id="b180427d-7f3d-426d-b69b-06c975ee8575" 
+                 style="height: 500px; width: 75%; margin: 0 auto" 
+                 class="plotly-graph-div"
+            ></div>
+            
+            <p>You might not think the prediction accuracy shown above looks good enough to profit from actual betting. Let's weight our bets by the confidence output from the model. We'll also include odds of -105 for each bet. As you can see below, BetSmart betting behavior would have profited every year except 2008.</p>
+            
+            <div 
+                 id="ddac746a-d3c6-4a6b-bbcc-5427532b263a" 
+                 style="height: 500px; width: 75%; margin: 0 auto" 
+                 class="plotly-graph-div"
+            ></div>
+
+            <h1>Over/Under Prediction Performance</h1>
+
+            <p>Just like predicting the spread, predicting the over/under is a difficult task. The BetSmart model outperformed a naive estimator in all but 2 years, on average by 2%. Just as was shown above, intelligently weighting betting amounts by the confidence output by the model can result in a profitable outcome.</p>
+
+            <div 
+                 id="aedfae93-af5a-4dd5-93bf-de78005cf57d" 
+                 style="height: 500px; width: 75%; margin: 0 auto" 
+                 class="plotly-graph-div"
+            ></div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
 {% block js %}
 <script src="{{url_for('static', filename='js/performance.js')}}"></script>
 {% endblock %}
