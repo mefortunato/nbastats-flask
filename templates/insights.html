@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col text-center" style="margin: 50px auto">
+            
+            <h1>Data Insights</h1>
+            
+            <p class="lead">Below is a plot showing some average statistics from 2008-2018 for NBA teams when playing at home. Hover over data points to show average win %, average point differential, average cover the spread %, average over/under %, and average attendance. The color of the data point represents each average statistics (change using the buttons below), and the size of each data point represents the attendance in each city.</p>
+            
+            <a class="btn btn-info toggle-buttons active" id="win-btn">Win %</a>
+            <a class="btn btn-light toggle-buttons" id="pm-btn">Point Differential</a>
+            <a class="btn btn-light toggle-buttons" id="spread-btn">Cover the Spread %</a>
+            <a class="btn btn-light toggle-buttons" id="total-btn">Hit the Over %</a>
+            
+            <div class="bk-root" id="9a9b8ae9-b112-47fb-b741-9012dc43c5bb"></div> <!-- win -->
+            <div class="bk-root" id="a9f4fea0-8129-4c0b-a3f0-3e103bf24a50" style="display: none"></div> <!-- pm -->
+            <div class="bk-root" id="0da47853-17b1-49b3-9945-acb16977e280" style="display: none"></div> <!-- spread -->
+            <div class="bk-root" id="7b05768d-ce85-494e-98d9-299bd987c74f" style="display: none"></div> <!-- total -->
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{url_for('static', filename='js/map-win.js')}}"></script>
+<script src="{{url_for('static', filename='js/map-pm.js')}}"></script>
+<script src="{{url_for('static', filename='js/map-spread.js')}}"></script>
+<script src="{{url_for('static', filename='js/map-total.js')}}"></script>
+<script src="{{url_for('static', filename='js/insights.js')}}"></script>
+{% endblock %}

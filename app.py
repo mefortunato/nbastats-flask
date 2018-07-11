@@ -35,6 +35,10 @@ def home():
 def performance():
     return render_template('performance.html')
 
+@app.route('/insights/')
+def insights():
+    return render_template('insights.html')
+
 @app.route('/games/', defaults={'date': '2018-06-08'})
 @app.route('/games/<date>/')
 def games(date='2018-06-08'):
