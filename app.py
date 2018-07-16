@@ -26,6 +26,17 @@ with open('static/dat/spread_model_v2.pkl', 'rb') as f:
     
 with open('static/dat/total_model_v2.pkl', 'rb') as f:
     total_est = pickle.load(f)
+    
+def predict_games_df(df):
+    if len(df) == 0:
+        return {}
+    df['win_pred_proba'] = list(win_est.predict_proba(df)[:, 1])
+    df['spread_pred_proba'] = list(spread_est.predict_proba(df)[:, 1])
+    df['total_pred_proba'] = list(total_est.predict_proba(df)[:, 1])
+    df['win_pred'] = list(win_est.predict(df))
+    df['spread_pred'] = list(spread_est.predict(df))
+    df['total_pred'] = list(total_est.predict(df))
+    return df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'moneyline', 'moneyline_a', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2).to_dict('index')
 
 @app.route('/')
 def home():
@@ -43,16 +54,24 @@ def insights():
 @app.route('/games/<date>/')
 def games(date='2018-06-08'):
     df = DATA[(DATA['date']==date) & (DATA['home']==1)].copy()
-    if len(df) == 0:
-        return render_template('games.html', games={}, date=date)
-    df['win_pred_proba'] = list(win_est.predict_proba(df)[:, 1])
-    df['spread_pred_proba'] = list(spread_est.predict_proba(df)[:, 1])
-    df['total_pred_proba'] = list(total_est.predict_proba(df)[:, 1])
-    df['win_pred'] = list(win_est.predict(df))
-    df['spread_pred'] = list(spread_est.predict(df))
-    df['total_pred'] = list(total_est.predict(df))
-    games = df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'moneyline', 'moneyline_a', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2).to_dict('index')
-    return render_template('games.html', games=games, date=date, logos=LOGOS)
+    games = predict_games_df(df)
+    return render_template('games.html', date=date)
+
+@app.route('/games-legacy/', defaults={'date': '2018-06-08'})
+@app.route('/games-legacy/<date>/')
+def games_legacy(date='2018-06-08'):
+    return render_template('games-legacy.html', games=games, date=date, logos=LOGOS)
+
+@app.route('/get-games/', defaults={'date': '2018-06-08'})
+@app.route('/get-games/<date>/')
+def get_games(date='2018-06-08'):
+    df = DATA[(DATA['date']==date) & (DATA['home']==1)].copy()
+    games = list(predict_games_df(df).values())
+    return jsonify(games=games)
+
+@app.route('/get-logos/')
+def get_logos():
+    return jsonify(logos=LOGOS)
 
 @app.route('/play/')
 def play():
