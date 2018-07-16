@@ -52,13 +52,6 @@ $(document).ready(function() {
     if (md.mobile()) {
         $("#submit").removeClass('d-none');
     }
-    $("#date").blur(function() {
-        redirect();
-    });
-    $("form").submit(function(e) {
-        e.preventDefault();
-        $("#date").blur();
-    });
     $('#games-link').addClass('active');
 })    
 
