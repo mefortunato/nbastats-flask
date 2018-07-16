@@ -53,13 +53,13 @@ def insights():
 @app.route('/games/', defaults={'date': '2018-06-08'})
 @app.route('/games/<date>/')
 def games(date='2018-06-08'):
-    df = DATA[(DATA['date']==date) & (DATA['home']==1)].copy()
-    games = predict_games_df(df)
     return render_template('games.html', date=date)
 
 @app.route('/games-legacy/', defaults={'date': '2018-06-08'})
 @app.route('/games-legacy/<date>/')
 def games_legacy(date='2018-06-08'):
+    df = DATA[(DATA['date']==date) & (DATA['home']==1)].copy()
+    games = predict_games_df(df)
     return render_template('games-legacy.html', games=games, date=date, logos=LOGOS)
 
 @app.route('/get-games/', defaults={'date': '2018-06-08'})
