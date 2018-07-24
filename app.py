@@ -36,7 +36,9 @@ def predict_games_df(df):
     df['win_pred'] = list(win_est.predict(df))
     df['spread_pred'] = list(spread_est.predict(df))
     df['total_pred'] = list(total_est.predict(df))
-    return df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'moneyline', 'moneyline_a', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2).to_dict('index')
+    res = df[['team', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'moneyline', 'moneyline_a', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']].round(2)
+    res = res.where((pd.notnull(res)), None)
+    return res.to_dict('index')
 
 @app.route('/')
 def home():
@@ -87,6 +89,7 @@ def random_game():
     game['spread_pred_proba'] = list(spread_est.predict_proba(game)[:, 1])
     game['total_pred_proba'] = list(total_est.predict_proba(game)[:, 1])
     game = game[['date', 'home_abrv', 'visitor_abrv', 'pts', 'pts_a', 'win', 'spread', 'total', 'spread_cover', 'total_cover', 'win_pred', 'spread_pred', 'total_pred', 'win_pred_proba', 'spread_pred_proba', 'total_pred_proba']]
+    game = game.where((pd.notnull(game)), None)
     logos = [LOGOS.get(game.home_abrv.values[0]), LOGOS.get(game.visitor_abrv.values[0])]
     date = game['date'].astype(str).values[0]
     return jsonify(info=game.to_dict('index'), logos=logos, date=date)
