@@ -25,8 +25,8 @@ $(document).ready(function() {
     window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";
         Plotly.plot(
             'ddac746a-d3c6-4a6b-bbcc-5427532b263a',
-            [{"name": "BetSmart", "x": [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], "y": [0.02128375963199083, -0.05432595706657854, 0.06449756674916624, 0.02335972551223329, 0.040503697175573776, 0.0931133935029565, 0.03010485252355285, 0.006023550511469445, 0.07329252090077941, 0.031289335800797735, 0.050571334990293336, 0.040712828530309685], "type": "bar", "uid": "f88e1b60-82cc-11e8-89eb-1a20ced466c5"}],
-            {"xaxis": {"title": "Season"}, "yaxis": {"range": [-0.06432595706657854, 0.1031133935029565], "title": "Profit (%)"}},
+            [{"name": "BetSmart", "x": [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], "y": [2.128375963199083, -5.432595706657854, 6.449756674916624, 2.335972551223329, 4.0503697175573776, 9.31133935029565, 3.010485252355285, 0.6023550511469445, 7.329252090077941, 3.1289335800797735, 5.0571334990293336, 4.0712828530309685], "type": "bar", "uid": "f88e1b60-82cc-11e8-89eb-1a20ced466c5"}],
+            {"xaxis": {"title": "Season"}, "yaxis": {"range": [-6.432595706657854, 10.31133935029565], "title": "Profit (%)"}},
             {"showLink": false, "linkText": "Export to plot.ly"}
         ).then(function () {return Plotly.addFrames('ddac746a-d3c6-4a6b-bbcc-5427532b263a',{});}).then(function(){Plotly.animate('ddac746a-d3c6-4a6b-bbcc-5427532b263a');})
     window.addEventListener("resize", function(){Plotly.Plots.resize(document.getElementById("ddac746a-d3c6-4a6b-bbcc-5427532b263a"));});
