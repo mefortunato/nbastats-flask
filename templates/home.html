@@ -1,12 +1,134 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/slideshow.css')}}" type="text/css" />
+{% endblock %}
+
 {% block main %}
 <div class="container">
-    <div style="margin-top: 50px" class="jumbotron">
-        <h1 class="display-4">Bet smarter, with <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b></h1>
-        <p class="lead">Get informed using data driven betting behavior and put more money in your pocket.</p>
-        <hr class="my-4">
-        <p>Will the Lakers cover the spread tonight? More importantly, should I bet on it? <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b>'s' machine learning algorithms will give you more insight into how to bet intelligently on NBA games.</p>
+    
+    <div class="slideshow-container">
+
+    <div class="mySlides">
+      <h1 class="display-4">Bet smarter, with <b><span style="color:#38a553">Bet</span><span style="color:#3a64a8">Smart</span></b></h1>
+      <p class="lead">Get informed using data driven betting behavior and put more money in your pocket.</p>
+      <p>Will the Lakers cover the spread tonight? More importantly, should I bet on it? Our machine learning algorithms will give you more insight into how to bet intelligently on NBA games.</p>
+    </div>
+
+    <div class="mySlides">
+        <h1 class="display-4">Sports Betting Basics</h1>
+        <hr style="background: #fff"/>
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <p class="text-center"><b>The Moneyline</b></p>
+                    <ul style="text-align: left">
+                        <li>Who will win?</li>
+                        <li><b>Odds</b> shift according to matchup</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <p class="text-center"><b>The Spread</b></p>
+                    <ul style="text-align: left">
+                        <li>By how much will they win?</li>
+                        <li><b>Line</b> shifts according to matchup</li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <p class="text-center"><b>The Over/Under</b></p>
+                    <ul style="text-align: left">
+                        <li>How many combined points will be scored?</li>
+                        <li><b>Line</b> shifts according to matchup</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                  <table class="table" style="margin: 0 auto; background: #eee">
+                      <thead>
+                          <th>Team</th>
+                          <th>Odds</th>
+                          <th>Score</th>
+                          <th>Bet</th>
+                      </thead>
+                      <tr>
+                          <td>LAL</td>
+                          <td>+563</td>
+                          <td>106</td>
+                          <td>&#10006;</td>
+                      </tr>
+                      <tr>
+                          <td>GSW</td>
+                          <td>-691</td>
+                          <td>113</td>
+                          <td>&#10004;</td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                  <table class="table" style="margin: 0 auto; background: #eee">
+                      <thead>
+                          <th>Team</th>
+                          <th>Odds</th>
+                          <th>Spread</th>
+                          <th>Bet</th>
+                      </thead>
+                      <tr>
+                          <td>LAL</td>
+                          <td>-105</td>
+                          <td>+11.5</td>
+                          <td>&#10004;</td>
+                      </tr>
+                      <tr>
+                          <td>GSW</td>
+                          <td>-105</td>
+                          <td>-11.5</td>
+                          <td>&#10006;</td>
+                      </tr>
+                  </table>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                  <table class="table" style="margin: 0 auto; background: #eee">
+                      <thead>
+                          <th>Team</th>
+                          <th>Odds</th>
+                          <th>Total</th>
+                          <th>Bet</th>
+                      </thead>
+                      <tr>
+                          <td>LAL</td>
+                          <td>-105</td>
+                          <td>o216</td>
+                          <td>&#10004;</td>
+                      </tr>
+                      <tr>
+                          <td>GSW</td>
+                          <td>-105</td>
+                          <td>u216</td>
+                          <td>&#10006;</td>
+                      </tr>
+                  </table>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="mySlides">
+      <h1 class="display-4">Model Schematic</h1>
+      <img src="{{url_for('static', filename='img/model-schematic.svg')}}" height="350px"/> 
+    </div>
+
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    
+    <div style="position: absolute; bottom: 15px">
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span> 
+          <span class="dot" onclick="currentSlide(2)"></span> 
+          <span class="dot" onclick="currentSlide(3)"></span> 
+        </div>
+    </div>
+
     </div>
     
     <div class="row">
@@ -38,4 +160,33 @@
         </div>
     </div>
 </div>
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}    
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+}
+</script>
 {% endblock %}
