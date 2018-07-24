@@ -109,10 +109,10 @@ Vue.component('game-view', {
                         <td :class="game['win']==game['win_pred'] ? 'green' : 'red'">
                             %%(100*game['win_pred_proba']).toFixed(0)%%%
                         </td>
-                        <td :class="game['spread_cover']==game['spread_pred'] ? 'green' : 'red'">
+                        <td :class="game['spread_cover']==null || game['spread_cover']==game['spread_pred'] ? 'green' : 'red'">
                             %%(100*game['spread_pred_proba']).toFixed(0)%%%
                         </td>
-                        <td :class="game['total_cover']==game['total_pred'] ? 'green' : 'red'">
+                        <td :class="game['total_cover']==null || game['total_cover']==game['total_pred'] ? 'green' : 'red'">
                             %%(100*game['total_pred_proba']).toFixed(0)%%%
                         </td>
                     </tr>
